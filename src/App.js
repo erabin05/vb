@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Employee from './Components/Employee'
+import './App.css'
+
+const useEmployees = () => {
+  const [ employees, setEmployees ] = useState([])
+
+  const url = `https://my.api.mockaroo.com/employee.json?key=${process.env.REACT_APP_API_KEY}`
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((res => {
+        setEmployees(res.data)
+      }))
+  }, [])
+
+  return employees
 }
 
-export default App;
+function App() {
+  const employees = useEmployees()
+
+  return (
+    <div className="App">
+      <header>
+        <Employee 
+          employee={{
+            "name": "Name",
+            "job_title": "Job Title",
+            "department": "Department",
+            "company_name": "Company",
+            "experience_in_job": "Experience"
+          }}
+        />
+      </header>
+      <div className="employees">
+        {
+          employees.map((employee) => <Employee employee={employee}/>)
+        }
+      </div>
+    </div>
+  )
+}
+
+export default App

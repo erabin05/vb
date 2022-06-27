@@ -1,0 +1,18 @@
+.employee {
+    display: flex;
+    justify-content: space-between;
+}
+
+.employee > div {
+    padding: 0.8rem 1.6rem;
+    width: calc(100% / 5);
+}
+
+header .employee {
+    background: black;
+    color: white;
+}
+
+.employees .employee:nth-child(odd) {
+    background: #d8d8d8;
+}
